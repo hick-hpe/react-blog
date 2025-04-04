@@ -1,14 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
+import Login from "./Pages/Login";
+import Home from "./Pages/Home";
 import WritePost from "./Pages/WritePost";
-import NotFound from "./pages/NotFound";
-import Register from "./pages/Register";
-import Logout from "./pages/Logout";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Privacy from "./pages/Privacy";
-import PostDetail from "./pages/PostDetail";
+import NotFound from "./Pages/NotFound";
+import Register from "./Pages/Register";
+import Logout from "./Pages/Logout";
+import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+import Privacy from "./Pages/Privacy";
+import PostDetail from "./Pages/PostDetail";
+import MyPosts from "./Pages/MyPosts";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,8 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/:id" element={<PostDetail />} />
+        <Route path="/my-posts/" element={<MyPosts />} />
+        {/* <Route path="/my-posts/:id" element={<MyPostDetail />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/write-post" element={<WritePost />} />
         <Route path="/register" element={<Register />} />

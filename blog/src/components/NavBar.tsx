@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {
     setSearchQuery?: (query: string) => void;
-  };
+};
 
 const NavBar = ({ setSearchQuery }: Props) => {
     const navigate = useNavigate();
@@ -17,15 +17,25 @@ const NavBar = ({ setSearchQuery }: Props) => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="/"><i className="bi bi-newspaper"></i> Feed</a>
+                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
+                            <Link to='/' className="nav-link">
+                                <i className="bi bi-newspaper"></i> Feed
+                            </Link>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/write-post"><i className="bi bi-pencil-square"></i> Escrever</a>
+                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
+                            <Link to='/write-post' className="nav-link">
+                                <i className="bi bi-pencil-square"></i> Escrever
+                            </Link>
                         </li>
-
-                        <li className="nav-item">
-                            <a className="nav-link" href="#"><i className="bi bi-bell"></i></a>
+                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
+                            <Link to='/my-posts' className="nav-link">
+                            <   i className="bi bi-newspaper"></i> Meus posts
+                            </Link>
+                        </li>
+                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
+                            <Link to='/my-posts' className="nav-link">
+                                <i className="bi bi-bell"></i>
+                            </Link>
                         </li>
 
                     </ul>

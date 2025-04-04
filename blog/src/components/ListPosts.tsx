@@ -18,6 +18,7 @@ import axios from "axios";
 
 type Props = {
     searchQuery: string;
+    endpoint: string;
 };
 
 type Post = {
@@ -27,13 +28,13 @@ type Post = {
     user_id: number
 }
 
-const ListPosts = ({ searchQuery }: Props) => {
+const ListPosts = ({ searchQuery, endpoint }: Props) => {
     const [posts, setPosts] = useState([] as Post[]);
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/posts");
+                const response = await axios.get(`http://localhost:5000/api/${endpoint}`);
                 const data = response.data;
                 setPosts(data);
                 console.log("Post: "  + JSON.stringify(data));
