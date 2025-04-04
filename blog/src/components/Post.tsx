@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const PostStyled = styled.div`
@@ -33,14 +34,19 @@ const PostStyled = styled.div`
 `;
 
 type PostProps = {
-  title: string;
-  content: string;
-};
+  id: number
+  title: string,
+  content: string,
+}
 
-const Post = ({ title, content }:PostProps) => {
+const Post = ({ id, title, content }: PostProps) => {
   return (
     <PostStyled aria-label={`Post: ${title}`}>
-      <h1>{title}</h1>
+      <h1>
+        <Link to={`/post/${id}`} style={{ textDecoration: "none", color: "#333" }}>
+          {title}
+        </Link>
+      </h1>
       <p>{content}</p>
     </PostStyled>
   );

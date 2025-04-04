@@ -8,12 +8,14 @@ import Logout from "./pages/Logout";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
+import PostDetail from "./pages/PostDetail";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/post/:id" element={<PostDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/write-post" element={<WritePost />} />
         <Route path="/register" element={<Register />} />
