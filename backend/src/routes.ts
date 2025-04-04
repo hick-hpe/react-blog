@@ -35,34 +35,36 @@ router.get("/posts/:id", (req: Request, res: Response) => {
     });
 });
 
-// router.post("/users", (req: Request, res: Response) => {
-//     const { nome, email, senha } = req.body;
-//     if (!nome || !email || !senha) {
-//         return res.status(400).json({ error: "Preencha todos os campos!" });
-//     }
+router.post("/users", async (req: Request, res: Response):Promise<void> => {
+    const { nome, email, senha } = req.body;
+    if (!nome || !email || !senha) {
+        res.status(400).json({ error: "Preencha todos os campos!" });
+        return;
+    }
 
-//     const sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
-//     db.run(sql, [nome, email, senha], function (err) {
-//         if (err) {
-//             return res.status(500).json({ error: err.message });
-//         }
-//         res.json({ id: this.lastID, nome, email, senha });
-//     });
-// });
+    const sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
+    db.run(sql, [nome, email, senha], function (err) {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({ id: this.lastID, nome, email, senha });
+    });
+});
 
-// router.post("/posts", (req: Request, res: Response) => {
-//     const { title, content } = req.body;
-//     if (!title || !content) {
-//         return res.status(400).json({ error: "Preencha todos os campos!" });
-//     }
+router.post("/posts", (req: Request, res: Response) => {
+    const { title, content } = req.body;
+    if (!title || !content) {
+        res.status(400).json({ error: "Preencha todos os campos!" });
+    }
 
-//     const sql = "INSERT INTO posts (title, content) VALUES (?, ?)";
-//     db.run(sql, [title, content], function (err) {
-//         if (err) {
-//             return res.status(500).json({ error: err.message });
-//         }
-//         res.json({ id: this.lastID, title, content });
-//     });
-// });
+    const sql = "INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)";
+    db.run(sql, [1, title, content], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ id: this.lastID, title, content });
+    });
+});
 
 export default router;
