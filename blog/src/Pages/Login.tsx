@@ -7,15 +7,44 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (email === "admin@example.com" && password === "123456") {
-      toast.success("Login bem-sucedido!");
-      localStorage.setItem("user", JSON.stringify({ email }));
-      setTimeout(() => navigate("/"), 2000);
-    } else {
-      toast.error("Credenciais inválidas!");
+    // Validação simples de campos
+    if (!email || !password) {
+      toast.error("Preencha todos os campos!");
+      return;
+    }
+
+    try {
+      // Envia os dados para o backend
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Sucesso: login bem-sucedido
+        toast.success("Login bem-sucedido!");
+        
+        // Armazenar informações do usuário no localStorage
+        // localStorage.setItem("user", JSON.stringify({ email }));
+
+        // Navegar para a página inicial ou outra página após o login
+        // setTimeout(() => navigate("/"), 2000);
+      } else {
+        // Falha: credenciais inválidas
+        toast.error(data.error || "Credenciais inválidas!");
+      }
+    } catch (error) {
+      // Erro de conexão ou outro erro
+      console.error("Erro ao fazer login:", error);
+      toast.error("Erro ao tentar fazer login. Tente novamente mais tarde.");
     }
   };
 
