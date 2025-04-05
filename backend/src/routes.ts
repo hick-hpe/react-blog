@@ -4,39 +4,45 @@ import db from "./database";
 import authMiddleware from "./auth";
 
 import { validateUser, createUser } from "./authService";
-const router:Router = Router();
+const router: Router = Router();
 
 router.get('/protected', authMiddleware, (req, res) => {
     res.send("Você tem acesso a essa rota protegida!");
 });
 
 // ============================================ auth ============================================
-router.post("/login", async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+router.post("/login", (req, res) => {
+    const { email, senha } = req.body;
 
-    console.log('email: ' + email);
-    console.log('senha: ' + password);
-
-    if (!email || !password) {
-        res.status(400).json({ error: "Preencha todos os campos!" });
-    }
-
-    try {
-        const user = await validateUser(email, password);
-
-        if (!user) {
-            res.status(401).json({ error: "Credenciais inválidas!" });
+    db.get("SELECT * FROM usuario WHERE email = ? AND senha = ?", [email, senha], (err, user:{id:number, nome:string, email:string, senha:string}) => {
+        if (err || !user) {
+            return res.status(401).json({ err });
         }
 
-        req.session.user_id = user?.id;
+        if (!req.session) {
+            return res.status(500).json({ error: "Sessão não disponível" });
+        }
 
-        res.json({ message: "Login bem-sucedido!" });
+        req.session.user = user;
+        console.log('------------------ REALIZAOU LOGIN ------------------');
+        console.log('session: ' + JSON.stringify(req.session));
+        console.log('id: ' + req.session.user.id);
+        res.json({ message: "Login bem-sucedido" });
+    });
+});
 
-    } catch (error) {
-        console.error("Erro no login:", error);
-        res.status(500).json({ error: "Erro interno do servidor!" });
+// rota para verificar se esta logado
+router.get("/isLogged", (req, res) => {
+
+    if (req.session.user) {
+        console.log('logado');
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        console.log('não logado');
+        res.json({ loggedIn: false, user: null });
     }
 });
+
 
 
 router.post("/register", async (req: Request, res: Response) => {
@@ -56,7 +62,7 @@ router.post("/register", async (req: Request, res: Response) => {
 
         const newUser = await createUser(email, senha);
 
-        req.session.user_id = newUser.id;
+        req.session.user = newUser;
 
         res.json({ message: "Cadastro bem-sucedido!" });
 
@@ -81,7 +87,7 @@ router.get("/users", (req: Request, res: Response) => {
 });
 
 
-router.post("/users", async (req: Request, res: Response):Promise<void> => {
+router.post("/users", async (req: Request, res: Response): Promise<void> => {
     const { nome, email, senha } = req.body;
     if (!nome || !email || !senha) {
         res.status(400).json({ error: "Preencha todos os campos!" });
@@ -110,8 +116,8 @@ router.get("/posts", (req: Request, res: Response) => {
 });
 
 router.get("/my-posts", (req: Request, res: Response) => {
-    const user_id = req.session.user_id;
-    
+    const user_id = req.session.user?.id;
+
     db.all("SELECT * FROM posts WHERE user_id = ?", [user_id], (err, rows) => {
         if (err) {
             res.status(500).json({ error: err.message });

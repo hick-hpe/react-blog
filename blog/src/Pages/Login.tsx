@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,35 +18,25 @@ const Login = () => {
     }
 
     try {
-      // Envia os dados para o backend
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/login",
+        { email, senha: password },
+        { withCredentials: true }
+      );
 
-      const data = await response.json();
+      // Se não houve erro, o login foi bem-sucedido
+      toast.success(response.data.message);
 
-      if (response.ok) {
-        // Sucesso: login bem-sucedido
-        toast.success("Login bem-sucedido!");
-        
-        // Armazenar informações do usuário no localStorage
-        // localStorage.setItem("user", JSON.stringify({ email }));
+      // Redireciona após 2 segundos
+      setTimeout(() => navigate("/"), 2000);
 
-        // Navegar para a página inicial ou outra página após o login
-        // setTimeout(() => navigate("/"), 2000);
-      } else {
-        // Falha: credenciais inválidas
-        toast.error(data.error || "Credenciais inválidas!");
-      }
-    } catch (error) {
-      // Erro de conexão ou outro erro
+    } catch (error: any) {
+      // Erro no login: mostra mensagem retornada ou erro padrão
+      const errorMsg = error.response?.data?.error || "Erro ao tentar fazer login. Tente novamente mais tarde.";
       console.error("Erro ao fazer login:", error);
-      toast.error("Erro ao tentar fazer login. Tente novamente mais tarde.");
+      toast.error(errorMsg);
     }
+
   };
 
   return (

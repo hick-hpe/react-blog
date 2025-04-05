@@ -4,19 +4,33 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 
+  // const [logado, setLogado] = useState(false);
+
   useEffect(() => {
-    if (!localStorage.getItem("user")) {
-      toast.error("Você precisa estar logado para criar um post!");
-      setTimeout(() => navigate("/login"), 3000);
-    } else {
-      toast.success("Você está na página de criação de post!");
-    }
+    const isLoogged = async () => {
+      const response = await axios.get('http://localhost:5000/api/isLogged', {
+        withCredentials: true
+      });
+      const data = await response.data;
+      // setLogado(data.loggedIn);
+
+      console.log('logado', data.loggedIn);
+      // console.log('logado', logado);
+
+      if (!data.loggedIn) {
+        toast.error("Você precisa estar logado para criar um post!");
+        setTimeout(() => navigate("/login"), 3000);
+      }
+    };
+
+    isLoogged();
   }, []);
 
   const handleCreatePost = (e: React.FormEvent) => {
@@ -28,7 +42,7 @@ const NewPost = () => {
     }
 
     toast.success("Post criado com sucesso!");
-    setTimeout(() => navigate("/"), 1500);
+    setTimeout(() => navigate("/"), 3000);
   };
 
   return (

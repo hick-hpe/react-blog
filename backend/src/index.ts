@@ -8,11 +8,11 @@ import authMiddlware from "./auth";
 const app = express();
 const PORT = 5000;
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173", // ou onde está seu frontend
+    credentials: true // Permite cookies de sessão
+}));
 app.use(bodyParser.json());
-
-app.use('/api', router);
-// app.use("/auth", router);
 
 app.use(session({
     secret: 'xbsjddnjfkmasçlfsfagsgs',
@@ -24,6 +24,8 @@ app.use(session({
         secure: false
     }
 }));
+
+app.use('/api', router);
 
 // Iniciar o servidor
 app.listen(PORT, () => {

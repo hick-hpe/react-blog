@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 type Props = {
@@ -6,7 +8,21 @@ type Props = {
 
 const NavBar = ({ setSearchQuery }: Props) => {
     const navigate = useNavigate();
-    const logado = localStorage.getItem('user');
+    const [logado, setLogado] = useState(false);
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const isLoogged = async () => {
+            const response = await axios.get('http://localhost:5000/api/isLogged', {
+                withCredentials: true
+              });
+            const data = await response.data;
+            setLogado(data.loggedIn);
+            setUser(data.user);
+        };
+
+        isLoogged();
+    }, [logado]);
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -55,7 +71,7 @@ const NavBar = ({ setSearchQuery }: Props) => {
                     ) : (
                         <div className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
+                                {user.nome}
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a className="dropdown-item" href="/logout"><i className="bi bi-box-arrow-right"></i> Sair</a></li>
