@@ -116,6 +116,7 @@ router.get("/posts", (req: Request, res: Response) => {
 });
 
 router.get("/my-posts", (req: Request, res: Response) => {
+    console.log('user: ' + JSON.stringify(req.session.user));
     const user_id = req.session.user?.id;
 
     db.all("SELECT * FROM posts WHERE user_id = ?", [user_id], (err, rows) => {
@@ -123,6 +124,9 @@ router.get("/my-posts", (req: Request, res: Response) => {
             res.status(500).json({ error: err.message });
             return;
         }
+        console.log('------------------ MEUS POSTS ------------------');
+        console.log('user_id: ' + req.session.user?.nome);
+        console.log('posts: ' + JSON.stringify(rows));
         res.json(rows);
     });
 });

@@ -10,19 +10,15 @@ const NewPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
-
-  // const [logado, setLogado] = useState(false);
-
+  
   useEffect(() => {
     const isLoogged = async () => {
       const response = await axios.get('http://localhost:5000/api/isLogged', {
         withCredentials: true
       });
       const data = await response.data;
-      // setLogado(data.loggedIn);
 
       console.log('logado', data.loggedIn);
-      // console.log('logado', logado);
 
       if (!data.loggedIn) {
         toast.error("Você precisa estar logado para criar um post!");
