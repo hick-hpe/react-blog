@@ -1,9 +1,10 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import session from "express-session";
-import router from "./routes";
-import authMiddlware from "./auth";
+import router from "./routesAuth";
+import routerUser from "./routersUser";
+import routerPost from "./routersPost";
 
 const app = express();
 const PORT = 5000;
@@ -25,7 +26,9 @@ app.use(session({
     }
 }));
 
-app.use('/api', router);
+app.use('/api/auth', router);
+app.use('/api/user', routerUser);
+app.use('/api/posts', routerPost);
 
 // Iniciar o servidor
 app.listen(PORT, () => {

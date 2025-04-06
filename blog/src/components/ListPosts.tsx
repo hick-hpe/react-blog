@@ -17,6 +17,7 @@ import axios from "axios";
 
 
 type Props = {
+    titulo: string;
     searchQuery: string;
     endpoint: string;
 };
@@ -28,13 +29,13 @@ type Post = {
     user_id: number
 }
 
-const ListPosts = ({ searchQuery, endpoint }: Props) => {
+const ListPosts = ({ titulo, searchQuery, endpoint }: Props) => {
     const [posts, setPosts] = useState([] as Post[]);
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/${endpoint}`);
+                const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {withCredentials: true});
                 const data = response.data;
                 setPosts(data);
                 console.log("Post: " + JSON.stringify(data));
@@ -52,8 +53,8 @@ const ListPosts = ({ searchQuery, endpoint }: Props) => {
 
     return (
         <>
-            <h1>Posts</h1>
             <div className="container mt-5 d-flex flex-column align-items-center">
+            <h1>{titulo}</h1>
                 {filteredPosts.length > 0 ? (
                     filteredPosts.map((post) => <Post key={post.id} {...post} />)
                 ) : (

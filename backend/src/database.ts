@@ -17,7 +17,6 @@ const SCRIPTS_SQLITE3 = [`
         FOREIGN KEY (user_id) REFERENCES usuario(id) ON DELETE CASCADE
     );
     `,
-    `INSERT INTO posts (user_id, title, content) VALUES (1, 'Meu primeiro post', 'Conteúdo do primeiro post...')`,
 ]
 const db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {

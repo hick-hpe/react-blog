@@ -32,7 +32,7 @@ const Home = () => {
     <>
       <ToastContainer position="top-right" autoClose={3000} />
       <NavBar setSearchQuery={setSearchQuery} />
-      <ListPosts searchQuery={searchQuery} endpoint='my-posts' />
+      <ListPosts titulo='Meus posts' searchQuery={searchQuery} endpoint='my-posts' />
       <Footer />
     </>
   );
