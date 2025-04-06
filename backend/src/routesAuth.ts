@@ -66,4 +66,19 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
     );
 });
 
+// logout
+router.get("/logout", (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({ error: "Erro ao encerrar a sessão" });
+            }
+            res.json({ message: "Logout realizado com sucesso!" });
+        });
+    } else {
+        res.status(400).json({ error: "Nenhuma sessão ativa" });
+    }
+});
+
+
 export default router;
