@@ -9,3 +9,5 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         res.status(401).send("Não autorizado");
     }
 }
+
+

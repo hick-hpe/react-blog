@@ -56,7 +56,7 @@ const ListPosts = ({ titulo, searchQuery, endpoint }: Props) => {
             <div className="container mt-5 d-flex flex-column align-items-center">
             <h1>{titulo}</h1>
                 {filteredPosts.length > 0 ? (
-                    filteredPosts.map((post) => <Post key={post.id} {...post} />)
+                    filteredPosts.map((post) => <Post key={post.id} {...post} endpoint={endpoint == 'posts/my' ? 'my' : ''} />)
                 ) : (
                     <p className="text-muted">Nenhum post encontrado.</p>
                 )}

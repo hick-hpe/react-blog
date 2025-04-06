@@ -10,6 +10,16 @@ router.get('/protected', authMiddleware, (req:Request, res:Response) => {
     res.json({ message: `${req.session.user?.nome}, você tem acesso a essa rota protegida!` });
 });
 
+// rota /isLogged
+router.get('/isLogged', (req:Request, res:Response) => {
+    if (req.session && req.session.user) {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
+    }
+})
+
+
 router.post("/login", (req, res) => {
     const { email, senha } = req.body;
 
@@ -66,14 +76,13 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
     );
 });
 
-// logout
-router.get("/logout", (req, res) => {
+router.post("/logout", (req, res) => {
     if (req.session) {
         req.session.destroy((err) => {
             if (err) {
                 return res.status(500).json({ error: "Erro ao encerrar a sessão" });
             }
-            res.json({ message: "Logout realizado com sucesso!" });
+            res.status(200).json({ message: "Logout realizado com sucesso!" });
         });
     } else {
         res.status(400).json({ error: "Nenhuma sessão ativa" });

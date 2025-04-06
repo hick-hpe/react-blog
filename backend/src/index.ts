@@ -26,7 +26,7 @@ app.use(session({
     }
 }));
 
-app.use('/api/auth', router);
+app.use('/auth', router);
 app.use('/api/user', routerUser);
 app.use('/api/posts', routerPost);
 

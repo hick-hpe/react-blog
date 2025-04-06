@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <>
       <NavBar setSearchQuery={setSearchQuery} />
-      <ListPosts titulo='Posts' searchQuery={searchQuery} endpoint='my-posts' />
+      <ListPosts titulo='Posts' searchQuery={searchQuery} endpoint='posts'/>
       <Footer />
     </>
   );

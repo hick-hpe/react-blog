@@ -37,13 +37,14 @@ type PostProps = {
   id: number
   title: string,
   content: string,
+  endpoint: string
 }
 
-const Post = ({ id, title, content }: PostProps) => {
+const Post = ({ id, title, content, endpoint }: PostProps) => {
   return (
     <PostStyled aria-label={`Post: ${title}`}>
       <h1>
-        <Link to={`/post/${id}`} style={{ textDecoration: "none", color: "#333" }}>
+        <Link to={endpoint == 'my' ? `/my-posts/${id}` : `/posts/${id}`} style={{ textDecoration: "none", color: "#333" }}>
           {title}
         </Link>
       </h1>

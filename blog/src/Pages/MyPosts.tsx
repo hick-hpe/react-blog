@@ -6,13 +6,13 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const Home = () => {
+const MyPosts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const isLoogged = async () => {
-      const response = await axios.get('http://localhost:5000/api/isLogged', {
+      const response = await axios.get('http://localhost:5000/auth/isLogged', {
         withCredentials: true
       });
       const data = await response.data;
@@ -32,10 +32,10 @@ const Home = () => {
     <>
       <ToastContainer position="top-right" autoClose={3000} />
       <NavBar setSearchQuery={setSearchQuery} />
-      <ListPosts titulo='Meus posts' searchQuery={searchQuery} endpoint='my-posts' />
+      <ListPosts titulo='Meus posts' searchQuery={searchQuery} endpoint='posts/my' />
       <Footer />
     </>
   );
 };
 
-export default Home;
+export default MyPosts;

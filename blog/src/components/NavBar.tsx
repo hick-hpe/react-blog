@@ -13,7 +13,7 @@ const NavBar = ({ setSearchQuery }: Props) => {
 
     useEffect(() => {
         const isLoogged = async () => {
-            const response = await axios.get('http://localhost:5000/api/isLogged', {
+            const response = await axios.get('http://localhost:5000/auth/isLogged', {
                 withCredentials: true
               });
             const data = await response.data;

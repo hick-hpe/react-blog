@@ -10,18 +10,20 @@ import Contact from "./Pages/Contact";
 import Privacy from "./Pages/Privacy";
 import PostDetail from "./Pages/PostDetail";
 import MyPosts from "./Pages/MyPosts";
+import MyPostDetail from "./Pages/MyPostDetail";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/post/:id" element={<PostDetail />} />
-        <Route path="/my-posts/" element={<MyPosts />} />
-        {/* <Route path="/my-posts/:id" element={<MyPostDetail />} /> */}
         <Route path="/login" element={<Login />} />
-        <Route path="/write-post" element={<WritePost />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/posts/:id" element={<PostDetail />} />
+        <Route path="/my-posts/" element={<MyPosts />} />
+        <Route path="/my-posts/:id" element={<MyPostDetail />} />
+        <Route path="/write-post" element={<WritePost />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

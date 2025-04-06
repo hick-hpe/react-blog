@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,7 +13,7 @@ const Register = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name.trim() || !email.trim() || !password.trim()) {
@@ -30,10 +31,25 @@ const Register = () => {
       return;
     }
 
-    // Simulação de registro
-    toast.success("Cadastro realizado com sucesso!");
-    localStorage.setItem("user", JSON.stringify({ name, email }));
-    setTimeout(() => navigate("/"), 2000);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/auth/register",
+        { nome:name, email, senha: password },
+        { withCredentials: true }
+      );
+
+      // Se não houve erro, o login foi bem-sucedido
+      toast.success(response.data.message);
+
+      // Redireciona após 2 segundos
+      setTimeout(() => navigate("/"), 2000);
+
+    } catch (error: any) {
+      // Erro no login: mostra mensagem retornada ou erro padrão
+      const errorMsg = error.response?.data?.error || "Erro ao tentar fazer cadastro. Tente novamente mais tarde.";
+      console.error("Erro ao fazer cadastro:", error);
+      toast.error(errorMsg);
+    }
   };
 
   return (

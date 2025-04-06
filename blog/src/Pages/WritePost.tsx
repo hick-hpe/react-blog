@@ -44,9 +44,7 @@ const NewPost = () => {
   return (
     <div>
       <NavBar />
-      {/* ToastContainer precisa estar aqui */}
       <ToastContainer position="top-right" autoClose={3000} />
-
       <div className="d-flex justify-content-center align-items-center bg-light" style={{ minHeight: "calc(100vh - 178px)" }}>
         <div className="card p-4 shadow-lg" style={{ width: "30rem" }}>
           <h3 className="d-flex justify-content-between mb-4">

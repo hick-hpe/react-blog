@@ -18,7 +18,7 @@ const PostDetail = () => {
         const fetchPost = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/posts/${id}`);
-                const data = response.data[0];
+                const data = response.data;
                 setPost({ title: data.title, content: data.content });
                 console.log("Data recebida:", data);
             } catch (error) {
@@ -41,7 +41,7 @@ const PostDetail = () => {
             </Link>
             <div className="d-flex justify-content-center w-100 mt-3">
                 <div className="w-50">
-                    <Post title={post.title} content={post.content} />
+                    {id && <Post id={parseInt(id, 10)} title={post.title} content={post.content} endpoint='' />}
                 </div>
             </div>
             <Footer />
