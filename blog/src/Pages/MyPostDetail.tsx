@@ -15,7 +15,7 @@ import {
     Col
 } from "react-bootstrap";
 
-const NewPost = () => {
+const MyPostDetail = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const navigate = useNavigate();
@@ -23,12 +23,32 @@ const NewPost = () => {
     const [show, setShow] = useState(false);
     const [numChars, setNumChars] = useState(0);
     const MAX_CHARS = 600;
+    const api = import.meta.env.VITE_API_URL;
+
+    useEffect(() => {
+        const isLoogged = async () => {
+            const response = await axios.get(`${api}/auth/isLogged`, {
+                withCredentials: true
+            });
+            const data = await response.data;
+
+            console.log('logado', data.loggedIn);
+
+            if (!data.loggedIn) {
+                console.log('não logado');
+                toast.error("Você precisa estar logado para criar um post!");
+                setTimeout(() => navigate("/login"), 3000);
+            }
+        };
+
+        isLoogged();
+    }, []);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const deletePost = async () => {
         try {
-            const response = await axios.delete(`http://localhost:5000/api/posts/${id}`, {
+            const response = await axios.delete(`${api}/api/posts/${id}`, {
                 withCredentials: true
             });
             const data = response.data;
@@ -44,7 +64,7 @@ const NewPost = () => {
     useEffect(() => {
         const getMyPost = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/posts/my/${id}`, {
+                const response = await axios.get(`${api}/api/posts/my/${id}`, {
                     withCredentials: true
                 });
                 const data = response.data;
@@ -68,7 +88,7 @@ const NewPost = () => {
         }
 
         try {
-            const response = await axios.put(`http://localhost:5000/api/posts/${id}`,
+            const response = await axios.put(`${api}/api/posts/${id}`,
                 { title, content },
                 { withCredentials: true }
             );
@@ -167,4 +187,4 @@ const NewPost = () => {
     );
 };
 
-export default NewPost;
+export default MyPostDetail;

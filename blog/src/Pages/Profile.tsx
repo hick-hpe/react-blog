@@ -15,13 +15,14 @@ const Profile = () => {
     const [logado, setLogado] = useState(false);
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
+    const api = import.meta.env.VITE_API_URL;
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     useEffect(() => {
         const isLoogged = async () => {
-            const response = await axios.get('http://localhost:5000/auth/isLogged', {
+            const response = await axios.get('${api}/auth/isLogged', {
                 withCredentials: true
             });
             const data = await response.data;
@@ -45,7 +46,7 @@ const Profile = () => {
         }
 
         try {
-            const response = await axios.put(`http://localhost:5000/api/users/${id}`,
+            const response = await axios.put(`${api}/api/users/${id}`,
                 { nome, email, senhaAtual, senhaNova },
                 { withCredentials: true }
             );
@@ -61,7 +62,7 @@ const Profile = () => {
 
     const deleteAccount = async () => {
         try {
-            const response = await axios.delete(`http://localhost:5000/api/users/${id}`, { withCredentials: true });
+            const response = await axios.delete(`${api}/api/users/${id}`, { withCredentials: true });
             const data = await response.data;
             toast.success(data.message);
             setTimeout(() => {

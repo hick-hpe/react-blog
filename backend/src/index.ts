@@ -5,31 +5,38 @@ import session from "express-session";
 import router from "./routesAuth";
 import routerUser from "./routersUser";
 import routerPost from "./routersPost";
+// import routerEmail from "./routersEmail";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const HOST = process.env.HOST || '192.168.3.27';
+const PORT = (process.env.PORT && parseInt(process.env.PORT, 10)) || 5000;
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }));
 app.use(bodyParser.json());
 
 app.use(session({
-    secret: 'xbsjddnjfkmasçlfsfagsgs',
+    secret: process.env.COOKIE_SECRET || "defaultSecret",
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 5 * 60 * 1000,
-        httpOnly: false,
-        secure: false
+        maxAge: 30 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV == 'development' ? false : true
     }
 }));
 
 app.use('/auth', router);
 app.use('/api/users', routerUser);
 app.use('/api/posts', routerPost);
+// app.use('/send-email', routerEmail);
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+    console.log(`Servidor rodando em http://${HOST}:${PORT}`);
+    console.log(new Date().toISOString());
+    console.log('----------------------------------');
 });

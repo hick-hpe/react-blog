@@ -5,12 +5,6 @@ import { authMiddleware } from "./authService";
 
 const router: Router = Router();
 
-// ========================== Rota protegida ==========================
-router.get('/protected', authMiddleware, (req:Request, res:Response) => {
-    res.json({ message: `${req.session.user?.nome}, você tem acesso a essa rota protegida!` });
-});
-
-// rota /isLogged
 router.get('/isLogged', (req:Request, res:Response) => {
     if (req.session && req.session.user) {
         res.json({ loggedIn: true, user: req.session.user });

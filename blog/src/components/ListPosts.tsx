@@ -23,10 +23,13 @@ type Props = {
 };
 
 type Post = {
-    id: number
-    title: string,
-    content: string,
-    user_id: number
+    id: number;
+    title: string;
+    content: string;
+    user_id: number;
+    createdBy: string;
+    createdAt: string;
+    updateAt: string;
 }
 
 const ListPosts = ({ titulo, searchQuery, endpoint }: Props) => {
@@ -35,10 +38,14 @@ const ListPosts = ({ titulo, searchQuery, endpoint }: Props) => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {withCredentials: true});
+                const api = import.meta.env.VITE_API_URL;
+                console.log('api: ', api);
+
+                const response = await axios.get(`${api}/api/${endpoint}`, {withCredentials: true});
                 const data = response.data;
                 setPosts(data);
-                console.log("Post: " + JSON.stringify(data));
+                console.log('POSTS --------------------');
+                console.log("Data recebida:", data);
             } catch (error) {
                 console.error("Erro ao buscar posts:", error);
             }
@@ -56,7 +63,7 @@ const ListPosts = ({ titulo, searchQuery, endpoint }: Props) => {
             <div className="container mt-5 d-flex flex-column align-items-center">
             <h1>{titulo}</h1>
                 {filteredPosts.length > 0 ? (
-                    filteredPosts.map((post) => <Post key={post.id} {...post} endpoint={endpoint == 'posts/my' ? 'my' : ''} />)
+                    filteredPosts.map((post) => <Post key={post.id} {...post} endpoint={endpoint == 'posts/my' ? 'my' : ''} createdBy={post.createdBy} />)
                 ) : (
                     <p className="text-muted">Nenhum post encontrado.</p>
                 )}

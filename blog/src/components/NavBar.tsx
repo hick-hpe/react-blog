@@ -13,9 +13,10 @@ const NavBar = ({ setSearchQuery }: Props) => {
 
     useEffect(() => {
         const isLoogged = async () => {
-            const response = await axios.get('http://localhost:5000/auth/isLogged', {
+            const api = import.meta.env.VITE_API_URL;
+            const response = await axios.get(`${api}/auth/isLogged`, {
                 withCredentials: true
-              });
+            });
             const data = await response.data;
             setLogado(data.loggedIn);
             setUser(data.user);
@@ -27,25 +28,27 @@ const NavBar = ({ setSearchQuery }: Props) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
             <div className="container-fluid">
-                <a className="navbar-brand" href="#">MyBlog</a>
+                <Link to='/' className="navbar-brand">
+                    MyBlog
+                </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
+                        <li className="nav-item" style={{ display: 'flex', alignItems: 'center' }}>
                             <Link to='/' className="nav-link">
                                 <i className="bi bi-newspaper"></i> Feed
                             </Link>
                         </li>
-                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
+                        <li className="nav-item" style={{ display: 'flex', alignItems: 'center' }}>
                             <Link to='/write-post' className="nav-link">
                                 <i className="bi bi-pencil-square"></i> Escrever
                             </Link>
                         </li>
-                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
+                        <li className="nav-item" style={{ display: 'flex', alignItems: 'center' }}>
                             <Link to='/my-posts' className="nav-link">
-                            <   i className="bi bi-newspaper"></i> Meus posts
+                                <   i className="bi bi-newspaper"></i> Meus posts
                             </Link>
                         </li>
                     </ul>
@@ -57,9 +60,9 @@ const NavBar = ({ setSearchQuery }: Props) => {
 
                     {!logado ? (
                         <>
-                            <button className="btn btn-primary ms-3" type="button"
+                            <button className="btn btn-dark ms-3" type="button"
                                 onClick={() => navigate('/register')}>Registrar</button>
-                            <button className="btn btn-primary ms-3" type="button"
+                            <button className="btn btn-dark ms-3" type="button"
                                 onClick={() => navigate('/login')}>Login</button>
                         </>
                     ) : (

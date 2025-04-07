@@ -30,6 +30,7 @@ const PostStyled = styled.div`
     p {
       font-size: 0.9rem;
     }
+    width: 300px;
   }
 `;
 
@@ -37,10 +38,24 @@ type PostProps = {
   id: number
   title: string,
   content: string,
-  endpoint: string
+  endpoint: string,
+  createdBy?: string
+  createdAt?: string,
+  updateAt?: string
 }
 
-const Post = ({ id, title, content, endpoint }: PostProps) => {
+const Post = ({ id, title, content, endpoint, createdBy, createdAt, updatedAt }: PostProps) => {
+  const formatarDataIso = (iso: string): string => {
+    const data = new Date(iso);
+    return `em ${data.toLocaleDateString("pt-BR")}, às ${data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    })}`;
+  }
+
+  console.log('createdAt:', createdAt);
+  console.log('updateAt:', updatedAt);
+
   return (
     <PostStyled aria-label={`Post: ${title}`}>
       <h1>
@@ -49,6 +64,9 @@ const Post = ({ id, title, content, endpoint }: PostProps) => {
         </Link>
       </h1>
       <p>{content}</p>
+      <small>Por {createdBy}</small> <br />
+      {createdAt && <small>Criado {formatarDataIso(createdAt)} <br /></small>}
+      {updatedAt && <small>Atualizado {formatarDataIso(updatedAt)}</small>}
     </PostStyled>
   );
 };

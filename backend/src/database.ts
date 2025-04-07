@@ -14,9 +14,10 @@ const SCRIPTS_SQLITE3 = [`
         user_id INTEGER NOT NULL,
         title TEXT NOT NULL,
         content TEXT NOT NULL,
+        createdAt TEXT DEFAULT (datetime('now')),
+        updatedAt TEXT DEFAULT (datetime('now')),
         FOREIGN KEY (user_id) REFERENCES usuario(id) ON DELETE CASCADE
-    );
-    `,
+    )`,
 ]
 const db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {

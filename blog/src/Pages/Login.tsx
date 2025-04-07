@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const api = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/login",
+        `${api}/auth/login`,
         { email, senha: password },
         { withCredentials: true }
       );
@@ -77,9 +78,9 @@ const Login = () => {
             Entrar
           </button>
         </form>
-        <div className="text-center mt-3">
+        {/* <div className="text-center mt-3">
           <Link to="#recuperar-senha">Esqueceu a senha?</Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

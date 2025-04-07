@@ -12,10 +12,11 @@ const NewPost = () => {
   const [numChars, setNumChars] = useState(0);
   const MAX_CHARS = 600;
   const navigate = useNavigate();
+  const api = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const isLoogged = async () => {
-      const response = await axios.get('http://localhost:5000/api/isLogged', {
+      const response = await axios.get(`${api}/auth/isLogged`, {
         withCredentials: true
       });
       const data = await response.data;
@@ -23,6 +24,7 @@ const NewPost = () => {
       console.log('logado', data.loggedIn);
 
       if (!data.loggedIn) {
+        console.log('não logado');
         toast.error("Você precisa estar logado para criar um post!");
         setTimeout(() => navigate("/login"), 3000);
       }
@@ -42,7 +44,7 @@ const NewPost = () => {
     const savePost = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/posts/",
+          `${api}/api/posts/`,
           { title, content },
           { withCredentials: true }
         );

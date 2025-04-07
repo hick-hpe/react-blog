@@ -4,16 +4,44 @@ import { authMiddleware } from "./authService";
 
 const routerPost: Router = Router();
 
-routerPost.get("/", (req: Request, res: Response) => {
-    db.all("SELECT * FROM posts", [], (err, rows) => {
-        if (err) res.status(500).json({ error: err.message });
+type Post = {
+    id: number;
+    title: string;
+    content: string;
+    user_id: number;
+    createdBy?: string;
+}
 
-        console.log('ROTA /posts GET');
-        console.log(JSON.stringify(rows));
-        console.log();
-        res.json(rows);
-    });
+type User = {
+    id: number;
+    nome: string;
+    email: string;
+    senha: string;
+}
+
+routerPost.get("/", async (req: Request, res: Response) => {
+    try {
+        db.all("SELECT * FROM posts", [], async (err, rows: Post[]) => {
+            if (err) return res.status(500).json({ error: err.message });
+
+            const rowsWithUsers = await Promise.all(rows.map((row) => {
+                return new Promise((resolve, reject) => {
+                    db.get("SELECT nome FROM usuario WHERE id = ?", [row.user_id], (err, userRow: User) => {
+                        if (err) return reject(err);
+                        row.createdBy = userRow?.nome;
+                        resolve(row);
+                    });
+                });
+            }));
+
+            res.json(rowsWithUsers);
+        });
+    } catch (error) {
+        console.error("Erro ao buscar posts:", error);
+        res.status(500).json({ error: "Erro ao buscar posts." });
+    }
 });
+
 
 routerPost.get("/my", authMiddleware, (req: Request, res: Response) => {
     const user_id = req.session?.user?.id;
@@ -27,8 +55,20 @@ routerPost.get("/my", authMiddleware, (req: Request, res: Response) => {
 
 routerPost.get("/:id", (req: Request, res: Response) => {
     const { id } = req.params;
-    db.get("SELECT * FROM posts WHERE id = ?", [id], (err, row) => {
+    db.get("SELECT * FROM posts WHERE id = ?", [id], async (err, row: Post) => {
         if (err) res.status(500).json({ error: err.message });
+
+        row = await new Promise((resolve, reject) => {
+            db.get("SELECT nome FROM usuario WHERE id = ?", [row.user_id], (err, userRow: User) => {
+                if (err) return reject(err);
+                row.createdBy = userRow?.nome;
+                resolve(row);
+            });
+        });
+
+        console.log('Unico');
+        console.log(JSON.stringify(row));
+        console.log();
         res.json(row);
     });
 });
@@ -50,43 +90,43 @@ routerPost.post("/", authMiddleware, (req: Request, res: Response) => {
         res.status(400).json({ error: "Preencha todos os campos!" });
     }
 
-    const sql = "INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)";
-    db.run(sql, [req.session.user?.id, title, content], function (err) {
-        if (err) res.status(500).json({ error: err.message });
+    const sql = "INSERT INTO posts (user_id, title, content, createdAt) VALUES (?, ?, ?, ?)";
+    const dataNow = new Date().toISOString();
+    db.run(sql, [req.session.user?.id, title, content, dataNow], function (err) {
+        if (err) return res.status(500).json({ error: err.message });
         res.json({ id: this.lastID, title, content });
     });
+
 });
 
-routerPost.put("/:id", authMiddleware, (req: Request, res: Response) => {
+routerPost.put("/:id", authMiddleware, (req: Request, res: Response): Response | any => {
+    console.log("ROTA /posts/:id PUT");
+
     const { id } = req.params;
     const { title, content } = req.body;
 
-    // Verifica se ao menos um campo foi enviado
     if (!title && !content) {
-        res.status(400).json({ error: "Envie ao menos um campo para atualizar!" });
+        return res.status(400).json({ error: "Envie ao menos um campo para atualizar!" });
     }
 
-    const fields: string[] = [];
-    const values: any[] = [];
+    console.log(`Atualizando post: ${id}
+Título: ${title}
+Conteúdo: ${content} 
+Atualizado em: ${new Date()}   
+    `);
 
-    if (title) {
-        fields.push("title = ?");
-        values.push(title);
-    }
+    const sql = `UPDATE posts SET title = ?, content = ?, updatedAt = ? WHERE id = ?`;
+    const dataNow = new Date().toISOString();
+    console.log('Update date: ', dataNow);
+    db.run(sql, [title, content, dataNow, id], function (err) {
+        console.log('---------- rodando script ----------');
+        if (err) {
+            console.log(err.message);
+            return res.status(500).json({ error: err.message });
+        }
 
-    if (content) {
-        fields.push("content = ?");
-        values.push(content);
-    }
-
-    values.push(id); // o ID vai por último, sempre
-
-    const sql = `UPDATE posts SET ${fields.join(", ")} WHERE id = ?`;
-
-    db.run(sql, values, function (err) {
-        if (err) return res.status(500).json({ error: err.message });
-
-        res.json({ id, title, content });
+        console.log('tudo ok!!!');
+        return res.json({ id, title, content });
     });
 });
 

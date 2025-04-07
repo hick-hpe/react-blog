@@ -5,8 +5,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         console.log('req.session.user:', req.session.user);
         next();
     } else {
-        console.log("Não autorizado");
-        res.status(401).send("Não autorizado");
+        console.log("[authMiddleware] Não autorizado");
+        res.status(401).send("[authMiddleware] Não autorizado");
     }
 }
 

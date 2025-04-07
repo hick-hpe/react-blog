@@ -9,10 +9,11 @@ import { useNavigate } from 'react-router-dom';
 const MyPosts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const api = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const isLoogged = async () => {
-      const response = await axios.get('http://localhost:5000/auth/isLogged', {
+      const response = await axios.get(`${api}/auth/isLogged`, {
         withCredentials: true
       });
       const data = await response.data;
@@ -20,7 +21,8 @@ const MyPosts = () => {
       console.log('logado', data.loggedIn);
 
       if (!data.loggedIn) {
-        toast.error("Você precisa estar logado para gerenciar seus posts!");
+        console.log('não logado');
+        toast.error("Você precisa estar logado para criar um post!");
         setTimeout(() => navigate("/login"), 3000);
       }
     };

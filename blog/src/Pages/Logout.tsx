@@ -15,7 +15,7 @@ const Logout = () => {
     useEffect(() => {
         const logout = async () => {
             try {
-                const response = await axios.post('http://localhost:5000/auth/logout', {}, { withCredentials: true });
+                const response = await axios.post('${api}/auth/logout', {}, { withCredentials: true });
                 const data = await response.data;
                 console.log(data.message);
                 setLoading(false);
