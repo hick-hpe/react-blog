@@ -41,7 +41,7 @@ type PostProps = {
   endpoint: string,
   createdBy?: string
   createdAt?: string,
-  updateAt?: string
+  updatedAt?: string
 }
 
 const Post = ({ id, title, content, endpoint, createdBy, createdAt, updatedAt }: PostProps) => {
