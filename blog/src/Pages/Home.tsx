@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Estado da pesquisa
 
+
   return (
     <>
       <NavBar setSearchQuery={setSearchQuery} />

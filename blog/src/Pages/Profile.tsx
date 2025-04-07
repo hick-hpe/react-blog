@@ -22,7 +22,7 @@ const Profile = () => {
 
     useEffect(() => {
         const isLoogged = async () => {
-            const response = await axios.get('${api}/auth/isLogged', {
+            const response = await axios.get(`${api}/auth/isLogged`, {
                 withCredentials: true
             });
             const data = await response.data;

@@ -96,7 +96,7 @@ const MyPostDetail = () => {
             console.log("Post atualizado:", data);
 
             toast.success("Post atualizado com sucesso!");
-            setTimeout(() => navigate(`/my-posts/${id}`), 3000);
+            setTimeout(() => navigate(`/my-posts/`), 3000);
         } catch (err) {
             toast.error("Erro ao salvar o post.");
         }
