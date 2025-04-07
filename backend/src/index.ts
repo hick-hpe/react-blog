@@ -10,8 +10,8 @@ const app = express();
 const PORT = 5000;
 
 app.use(cors({
-    origin: "http://localhost:5173", // ou onde está seu frontend
-    credentials: true // Permite cookies de sessão
+    origin: "http://localhost:5173",
+    credentials: true
 }));
 app.use(bodyParser.json());
 
@@ -20,17 +20,16 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 2 * 60 * 1000,
+        maxAge: 5 * 60 * 1000,
         httpOnly: false,
         secure: false
     }
 }));
 
 app.use('/auth', router);
-app.use('/api/user', routerUser);
+app.use('/api/users', routerUser);
 app.use('/api/posts', routerPost);
 
-// Iniciar o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

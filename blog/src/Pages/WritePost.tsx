@@ -9,8 +9,10 @@ import axios from "axios";
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [numChars, setNumChars] = useState(0);
+  const MAX_CHARS = 600;
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const isLoogged = async () => {
       const response = await axios.get('http://localhost:5000/api/isLogged', {
@@ -37,8 +39,27 @@ const NewPost = () => {
       return;
     }
 
-    toast.success("Post criado com sucesso!");
-    setTimeout(() => navigate("/"), 3000);
+    const savePost = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/posts/",
+          { title, content },
+          { withCredentials: true }
+        );
+        const data = await response.data;
+
+        toast.success("Post criado com sucesso!");
+        setTimeout(() => navigate("/"), 3000);
+
+        console.log("Post criado com sucesso:", data);
+      }
+      catch (error) {
+        toast.error("Erro ao criar o post!");
+        console.error("Erro ao criar o post:", error);
+        return;
+      }
+    }
+    savePost();
   };
 
   return (
@@ -77,13 +98,18 @@ const NewPost = () => {
               <textarea
                 id="content"
                 className="form-control"
-                placeholder="Escreva seu post..."
+                placeholder="Escreva seu post... (Máximo de 100 caracteres)"
                 rows={5}
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                maxLength={MAX_CHARS}
+                onChange={(e) => {
+                  setContent(e.target.value);
+                  setNumChars(e.target.value.length);
+                }}
                 required
                 style={{ resize: "none" }}
               />
+              <span>{numChars}/{MAX_CHARS}</span>
             </div>
             <button type="submit" className="btn btn-dark w-100">
               Publicar

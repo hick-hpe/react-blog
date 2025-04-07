@@ -21,9 +21,25 @@ const NewPost = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [show, setShow] = useState(false);
+    const [numChars, setNumChars] = useState(0);
+    const MAX_CHARS = 600;
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const deletePost = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:5000/api/posts/${id}`, {
+                withCredentials: true
+            });
+            const data = response.data;
+            console.log("Post excluído:", data);
+
+            toast.success("Post excluído com sucesso!");
+            setTimeout(() => navigate("/my-posts"), 3000);
+        } catch (err) {
+            toast.error("Erro ao excluir o post.");
+        }
+    }
 
     useEffect(() => {
         const getMyPost = async () => {
@@ -34,6 +50,7 @@ const NewPost = () => {
                 const data = response.data;
                 setTitle(data.title);
                 setContent(data.content);
+                setNumChars(data.content.length);
             } catch (err) {
                 toast.error("Erro ao carregar o post");
             }
@@ -106,9 +123,14 @@ const NewPost = () => {
                                             rows={5}
                                             style={{ resize: "none" }}
                                             value={content}
-                                            onChange={(e) => setContent(e.target.value)}
+                                            onChange={(e) => {
+                                                setContent(e.target.value);
+                                                setNumChars(e.target.value.length);
+                                            }}
+                                            maxLength={MAX_CHARS}
                                             required
                                         />
+                                        <span>{numChars}/{MAX_CHARS}</span>
                                     </Form.Group>
 
                                     <Button variant="dark" type="submit" className="w-100 mb-2">
@@ -134,7 +156,7 @@ const NewPost = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Cancelar
                     </Button>
-                    <Button variant="danger" onClick={handleClose}>
+                    <Button variant="danger" onClick={deletePost}>
                         Sim, excluir
                     </Button>
                 </Modal.Footer>

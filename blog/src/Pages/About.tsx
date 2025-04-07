@@ -7,49 +7,21 @@ const About = () => {
             <NavBar />
             <div className="container mt-5">
                 <h1 className="mb-4">Sobre Nós</h1>
-                
+
                 <section className="mb-5">
-                    <h3>Nossa Missão</h3>
-                    <p>
-                        Nossa missão é fornecer conteúdos de qualidade e ajudar pessoas a expandirem seu conhecimento.
-                        Criamos um espaço onde o aprendizado é acessível, interativo e eficiente.
-                    </p>
+                    <h3>Olá! 👋</h3>
                 </section>
 
                 <section className="mb-5">
-                    <h3>Visão e Valores</h3>
-                    <ul>
-                        <li><strong>Inovação:</strong> Estamos sempre buscando novas maneiras de melhorar a experiência dos nossos usuários.</li>
-                        <li><strong>Transparência:</strong> Prezamos pela clareza e honestidade em tudo que fazemos.</li>
-                        <li><strong>Qualidade:</strong> Nos comprometemos a oferecer apenas o melhor conteúdo.</li>
-                    </ul>
-                </section>
-
-                <section className="mb-5">
-                    <h3>Nossa Equipe</h3>
+                    <p>Ainda se encontra em melhorias!</p>
                     <p>
-                        Contamos com uma equipe de especialistas apaixonados por tecnologia, educação e inovação.
+                        Este blog está em fase de desenvolvimento e foi criado por mim como um projeto pessoal de testes e aprendizado. Estou utilizando essa plataforma para praticar e aplicar conhecimentos em desenvolvimento web, explorando tecnologias como React, Node.js, Express e SQLite.
                     </p>
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="card text-center p-3">
-                                <h5>Lucas Silva</h5>
-                                <p>Fundador & CEO</p>
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card text-center p-3">
-                                <h5>Ana Souza</h5>
-                                <p>Diretora de Conteúdo</p>
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card text-center p-3">
-                                <h5>João Pedro</h5>
-                                <p>Desenvolvedor Chefe</p>
-                            </div>
-                        </div>
-                    </div>
+                    <p>
+                        Todas as funcionalidades e conteúdos aqui presentes são parte de uma jornada de estudo, e o objetivo principal é construir algo funcional enquanto aprendo na prática.
+
+                        Agradeço por estar aqui! Em breve, pretendo lançar uma versão mais completa e refinada. Enquanto isso, sinta-se à vontade para explorar e acompanhar essa evolução. 🚀
+                    </p>
                 </section>
             </div>
             <Footer />

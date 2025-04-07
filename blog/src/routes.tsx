@@ -11,6 +11,7 @@ import Privacy from "./Pages/Privacy";
 import PostDetail from "./Pages/PostDetail";
 import MyPosts from "./Pages/MyPosts";
 import MyPostDetail from "./Pages/MyPostDetail";
+import Profile from "./Pages/Profile";
 
 const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/posts/:id" element={<PostDetail />} />
         <Route path="/my-posts/" element={<MyPosts />} />
         <Route path="/my-posts/:id" element={<MyPostDetail />} />

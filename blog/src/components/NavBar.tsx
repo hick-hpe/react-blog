@@ -48,12 +48,6 @@ const NavBar = ({ setSearchQuery }: Props) => {
                             <   i className="bi bi-newspaper"></i> Meus posts
                             </Link>
                         </li>
-                        <li className="nav-item" style={{display: 'flex', alignItems: 'center'}}>
-                            <Link to='/my-posts' className="nav-link">
-                                <i className="bi bi-bell"></i>
-                            </Link>
-                        </li>
-
                     </ul>
                     <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search"
@@ -74,6 +68,7 @@ const NavBar = ({ setSearchQuery }: Props) => {
                                 {user.nome}
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a className="dropdown-item" href="/profile"><i className="bi bi-box-arrow-right"></i> Meus dados</a></li>
                                 <li><a className="dropdown-item" href="/logout"><i className="bi bi-box-arrow-right"></i> Sair</a></li>
                             </ul>
                         </div>

@@ -36,7 +36,7 @@ const PostDetail = () => {
     return (
         <>
             <NavBar />
-            <Link to="/" className="btn btn-primary mt-3 ms-3">
+            <Link to="/" className="nav-link text-dark mt-3 ms-3">
                 <i className="bi bi-arrow-left"></i> Voltar para a lista de posts
             </Link>
             <div className="d-flex justify-content-center w-100 mt-3">
