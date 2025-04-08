@@ -13,10 +13,21 @@ const app = express();
 const HOST = process.env.HOST || '192.168.3.27';
 const PORT = (process.env.PORT && parseInt(process.env.PORT, 10)) || 5000;
 
+const allowedOrigins = [
+    'http://192.168.3.27:5175',
+    'http://localhost:5175'
+]
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true
-}));
+  }));
+
 app.use(bodyParser.json());
 
 app.use(session({
@@ -35,7 +46,7 @@ app.use('/api/users', routerUser);
 app.use('/api/posts', routerPost);
 // app.use('/send-email', routerEmail);
 
-app.use('/', (req:Request, res:Response) => {
+app.use('/', (req: Request, res: Response) => {
     res.json({
         message: "It's working!!!",
         date: new Date()
