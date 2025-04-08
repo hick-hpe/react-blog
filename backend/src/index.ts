@@ -5,7 +5,6 @@ import session from "express-session";
 import router from "./routesAuth";
 import routerUser from "./routersUser";
 import routerPost from "./routersPost";
-// import routerEmail from "./routersEmail";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -44,7 +43,6 @@ app.use(session({
 app.use('/auth', router);
 app.use('/api/users', routerUser);
 app.use('/api/posts', routerPost);
-// app.use('/send-email', routerEmail);
 
 app.use('/', (req: Request, res: Response) => {
     res.json({
