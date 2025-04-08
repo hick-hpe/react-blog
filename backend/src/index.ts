@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import session from "express-session";
@@ -34,6 +34,13 @@ app.use('/auth', router);
 app.use('/api/users', routerUser);
 app.use('/api/posts', routerPost);
 // app.use('/send-email', routerEmail);
+
+app.use('/', (req:Request, res:Response) => {
+    res.json({
+        message: "It's working!!!",
+        date: new Date()
+    })
+})
 
 app.listen(PORT, HOST, () => {
     console.log(`Servidor rodando em http://${HOST}:${PORT}`);
