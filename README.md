@@ -58,12 +58,12 @@ Nas pastas `backend/` e `blog/`, criar um arquivo `.env`
 
 Nas pastas `backend/` e `blog/`, digite:
 ```
-	npm run dev
+npm run dev
 ```
 
 ## Aplicação
 
-Link: [https://github.com/](https://github.com/)
+Link: [https://github.com/](https://github.com/) - *Ainda não disponível*
 
 ## Autor
 Henrique Palermo Emerick
