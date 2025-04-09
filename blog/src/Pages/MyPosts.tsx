@@ -18,6 +18,8 @@ const MyPosts = () => {
       });
       const data = await response.data;
 
+      console.log('Page "MyPosts"');
+      console.log('api', api);
       console.log('logado', data.loggedIn);
 
       if (!data.loggedIn) {

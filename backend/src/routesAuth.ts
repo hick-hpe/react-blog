@@ -1,11 +1,21 @@
 // criar rotas
 import { Router, Request, Response } from "express";
 import db from "./database";
-import { authMiddleware } from "./authService";
 
 const router: Router = Router();
 
+router.get('/protected', (req:Request, res:Response) => {
+    res.json({
+        message: `Bem vindo, ${req.session.user?.nome}!!!`
+    });
+})
+
 router.get('/isLogged', (req:Request, res:Response) => {
+    console.log('-------------------------------------------------------')
+    console.log('Rota /isLogged');
+    console.log('user logged:',(req.session.user?.nome ?? 'Unknown'));
+    console.log('-------------------------------------------------------\n')
+
     if (req.session && req.session.user) {
         res.json({ loggedIn: true, user: req.session.user });
     } else {

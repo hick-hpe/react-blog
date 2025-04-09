@@ -18,14 +18,14 @@ const allowedOrigins = [
 ]
 app.use(cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
     },
     credentials: true
-  }));
+}));
 
 app.use(bodyParser.json());
 
@@ -36,7 +36,7 @@ app.use(session({
     cookie: {
         maxAge: 30 * 60 * 1000,
         httpOnly: true,
-        secure: process.env.NODE_ENV == 'development' ? false : true
+        secure: process.env.NODE_ENV == 'prod'
     }
 }));
 

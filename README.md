@@ -46,7 +46,7 @@ Nas pastas `backend/` e `blog/`, criar um arquivo `.env`
  - `backend/.env`:
 	 - `COOKIE_SECRET`: chave secreta para o middleware `express-session`
 	 - `DB_SOURCE`: caminho do banco de dados
-	 -  `HOST`: endereço do servidor
+	 -  `HOST`: endereço do servidor, sem o http/https (192.168.3.x)
 	 - `NODE_ENV`: ambiente de desenvolvimento ou produção(development || production)
 	 - `PORT`: porta do servidor
 
