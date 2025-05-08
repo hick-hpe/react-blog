@@ -9,7 +9,7 @@ O projeto **MyBlog**  é um mini blog, onde os usuários podem se cadastrar, cri
 ### Web
 ![pageHome.png](assets/pageHome.png)
 
-### Celular
+### Mobile
 ![pageHomeCell.png](assets/pageHomeCell.png)
 
 ## Funcionalidades
